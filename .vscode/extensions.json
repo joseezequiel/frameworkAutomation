@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack", // Extension Pack for Java
+    "vscjava.vscode-gradle", // Gradle for Java
+    "naco-siren.gradle-language", // Gradle Language Support
+    "CucumberOpen.cucumber-official", // Cucumber for Visual Studio Code
+    "stevejpurves.cucumber", // Snippets and Syntax Highlight for Gherkin (Cucumber)
+    "esbenp.prettier-vscode", // Prettier - Code formatter
+    "alexkrechik.cucumberautocomplete" // Cucumber (Gherkin) Full Support
+  ]
+}

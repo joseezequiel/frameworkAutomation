@@ -1,0 +1,9 @@
+# Este archivo garantiza que los finales de línea de los scripts sean consistentes con el sistema operativo en el que se ejecutan.
+# https://help.github.com/articles/dealing-with-line-endings/
+#
+# Linux start script should use lf
+/gradlew        text eol=lf
+
+# These are Windows script files and should use crlf
+*.bat           text eol=crlf
+
