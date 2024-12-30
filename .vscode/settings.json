@@ -14,5 +14,8 @@
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "[feature]": {
+    "editor.defaultFormatter": "alexkrechik.cucumberautocomplete"
+  }
 }
