@@ -6,6 +6,7 @@
     "CucumberOpen.cucumber-official", // Cucumber for Visual Studio Code
     "stevejpurves.cucumber", // Snippets and Syntax Highlight for Gherkin (Cucumber)
     "esbenp.prettier-vscode", // Prettier - Code formatter
-    "alexkrechik.cucumberautocomplete" // Cucumber (Gherkin) Full Support
+    "alexkrechik.cucumberautocomplete", // Cucumber (Gherkin) Full Support
+    "redhat.java" // Language Support for Java(TM) by Red Hat
   ]
 }
