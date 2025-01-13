@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,13 +26,15 @@ public class BasePage {
      */
     protected static WebDriver driver;
 
+    private static Actions action;
+
     /*
      * Declaración de una variable de instancia 'wait' de tipo WebDriverWait.
      * Se inicializa inmediatamente con una instancia dew WebDriverWait utilizando
      * el 'driver' estático
      * WebDriverWait se usa para poner esperas explícitas en los elementos web
      */
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     /*
      * Configura el WebDriver para Chrome usando WebDriverManager.
@@ -39,7 +43,6 @@ public class BasePage {
      */
     static {
         WebDriverManager.chromedriver().setup();
-
         // Inicializa la variable estática 'driver' con una instancia de ChromeDriver
         driver = new ChromeDriver();
     }
@@ -57,6 +60,10 @@ public class BasePage {
     // Método estático para navegar a una URL.
     public static void navigateTo(String url) {
         driver.get(url);
+    }
+
+    public void goToLinkText(String linkText) {
+        driver.findElement(By.linkText(linkText)).click();
     }
 
     public static void closeBrowser() {
@@ -78,28 +85,73 @@ public class BasePage {
         Find(locator).click();
     }
 
-    public void write(String locator, String keysToSend) {
+    public void submitElement(String locator) {
+        Find(locator).click();
+    }
+
+    public void write(String locator, String textToWrite) {
         Find(locator).clear();
-        Find(locator).sendKeys(keysToSend);
+        Find(locator).sendKeys(textToWrite);
     }
 
     // DROPDOWN
-    public void selectFromDropdownByValue(String locator, String value) {
-        Select dropdown = new Select(Find(locator));
-
-        dropdown.selectByValue(value);
-    }
-
-    public void selectFromDropdownByIndex(String locator, Integer index) {
-        Select dropdown = new Select(Find(locator));
-
-        dropdown.selectByIndex(index);
-    }
-
     public int dropdownSize(String locator) {
         Select dropdown = new Select(Find(locator));
         List<WebElement> dropdownOptions = dropdown.getOptions();
         return dropdownOptions.size();
+    }
+
+    public void selectFromDropdownByValue(String locator, String valueToSelect) {
+        Select dropdown = new Select(Find(locator));
+        dropdown.selectByValue(valueToSelect);
+    }
+
+    public void selectFromDropdownByIndex(String locator, int valueToSelect) {
+        Select dropdown = new Select(Find(locator));
+        dropdown.selectByIndex(valueToSelect);
+    }
+
+    public void selectFromDropdownByText(String locator, String valueToSelect) {
+        Select dropdown = new Select(Find(locator));
+        dropdown.selectByVisibleText(valueToSelect);
+    }
+
+    public void hoverOverElement(String locator) {
+        action.moveToElement(Find(locator));
+    }
+
+    public void doubleClick(String locator) {
+        action.doubleClick(Find(locator));
+    }
+
+    public void rightClick(String locator) {
+        action.contextClick(Find(locator));
+    }
+
+    public String getValueFromTable(String locator, int row, int column) {
+        String cellINeed = locator + "/table/tbody/tr[" + row + "]/td[" + column + "]";
+        return Find(cellINeed).getText();
+    }
+
+    public void setValueOnTable(String locator, int row, int column, String stringToSend) {
+        String cellToFill = locator + "/table/tbody/tr[" + row + "]+/td[" + column + "]";
+        Find(cellToFill).sendKeys(stringToSend);
+    }
+
+    public void switchToFrame(int iFrameIndex) {
+        driver.switchTo().frame(iFrameIndex);
+    }
+
+    public void switchToParentFrame() {
+        driver.switchTo().parentFrame();
+    }
+
+    public void dismissAlert() {
+        try {
+            driver.switchTo().alert().dismiss();
+        } catch (NoAlertPresentException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<String> getDropdownValues(String locator) {
@@ -111,5 +163,50 @@ public class BasePage {
         }
 
         return values;
+    }
+
+    public String textFromElement(String locator) {
+        try {
+            return Find(locator).getText();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el texto del elemento: " + locator, e);
+        }
+    }
+
+    public boolean elementEnabled(String locator) {
+        return Find(locator).isEnabled();
+    }
+
+    public boolean elementIsDisplayed(String locator) {
+        return Find(locator).isDisplayed();
+    }
+
+    public boolean elementIsSelected(String locator) {
+        return Find(locator).isSelected();
+    }
+
+    public List<WebElement> bringMeAllElements(String locator) {
+        return driver.findElements(By.className(locator));
+    }
+
+    public void selectNthElement(String locator, int index) {
+        List<WebElement> list = driver.findElements(By.xpath(locator));
+        list.get(index).click();
+    }
+
+    public void dragAndDrop(String locator, String locator2) {
+        WebElement element = Find(locator);
+        WebElement element2 = Find(locator2);
+        action.dragAndDrop(element, element2).build().perform();
+    }
+
+    public void selectCriteriaFromList(String locator, String criteria) {
+        List<WebElement> list = driver.findElements(By.className(locator));
+        for (WebElement element : list) {
+            if (element.getText().equals(criteria)) {
+                element.click();
+                break;
+            }
+        }
     }
 }

@@ -8,7 +8,6 @@ import org.testng.asserts.SoftAssert;
 
 import io.cucumber.java.en.*;
 import pages.PaginaCursos;
-import pages.PaginaIntroduccionTesting;
 import pages.PaginaPrincipal;
 import pages.PaginaRegistro;
 
@@ -17,7 +16,6 @@ public class FreeRangeSteps {
 
     PaginaPrincipal landingPage = new PaginaPrincipal();
     PaginaCursos cursosPage = new PaginaCursos();
-    // PaginaIntroduccionTesting introductionPage = new PaginaIntroduccionTesting();
     PaginaRegistro registro = new PaginaRegistro();
 
     @Given("I navigate to www.freerangetesters.com")
